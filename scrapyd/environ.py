@@ -12,6 +12,7 @@ class Environment(object):
     def __init__(self, config, initenv=os.environ):
         self.dbs_dir = config.get('dbs_dir', 'dbs')
         self.logs_dir = config.get('logs_dir', 'logs')
+        self.log_suffix = config.get('log_suffix', 'log')
         self.items_dir = config.get('items_dir', '')
         self.jobs_to_keep = config.getint('jobs_to_keep', 5)
         if config.cp.has_section('settings'):
@@ -32,7 +33,7 @@ class Environment(object):
         if project in self.settings:
             env['SCRAPY_SETTINGS_MODULE'] = self.settings[project]
         if self.logs_dir:
-            env['SCRAPY_LOG_FILE'] = self._get_file(message, self.logs_dir, 'log')
+            env['SCRAPY_LOG_FILE'] = self._get_file(message, self.logs_dir, self.log_suffix)
         if self.items_dir:
             env['SCRAPY_FEED_URI'] = self._get_feed_uri(message, 'jl')
         return env
