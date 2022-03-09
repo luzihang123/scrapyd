@@ -126,8 +126,8 @@ class Jobs(resource.Resource):
         'Project', 'Spider',
         'Job', 'PID',
         'Start', 'Runtime', 'Finish',
-        'Log', 'Items',
-        'Cancel',
+        'Log', 'UTF_8',
+        'Items', 'Cancel'
     ]
 
     def gen_css(self):
@@ -202,6 +202,7 @@ class Jobs(resource.Resource):
                 Start=microsec_trunc(p.start_time),
                 Runtime=microsec_trunc(datetime.now() - p.start_time),
                 Log='<a href="/logs/%s/%s/%s.log">Log</a>' % (p.project, p.spider, p.job),
+                UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job),
                 Items='<a href="/items/%s/%s/%s.jl">Items</a>' % (p.project, p.spider, p.job),
                 Cancel=self.cancel_button(project=p.project, jobid=p.job)
             ))
@@ -217,6 +218,7 @@ class Jobs(resource.Resource):
                 Runtime=microsec_trunc(p.end_time - p.start_time),
                 Finish=microsec_trunc(p.end_time),
                 Log='<a href="/logs/%s/%s/%s.log">Log</a>' % (p.project, p.spider, p.job),
+                UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job),
                 Items='<a href="/items/%s/%s/%s.jl">Items</a>' % (p.project, p.spider, p.job),
             ))
             for p in self.root.launcher.finished
