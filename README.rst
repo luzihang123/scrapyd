@@ -43,3 +43,12 @@ TODO:
 
 1、日志大小控制
 应对长任务，海量数据抓取的log大小问题
+
+
+Install:
+-----
+无需登录git
+
+码云：pip install git+https://gitee.com/WoAiChiZhuSun/scrapyd.git
+
+github：pip install git+https://github.com/luzihang123/scrapyd.git
