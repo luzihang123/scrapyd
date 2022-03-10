@@ -6,6 +6,7 @@ from six.moves.urllib.parse import urlparse
 from twisted.web import resource, static
 from twisted.application.service import IServiceCollection
 
+from . import Config
 from .interfaces import IPoller, IEggStorage, ISpiderScheduler
 
 
@@ -16,7 +17,6 @@ class Root(resource.Resource):
         self.debug = config.getboolean('debug', False)
         self.runner = config.get('runner')
         logsdir = config.get('logs_dir')
-        self.log_suffix = config.get('log_suffix', 'log')
         itemsdir = config.get('items_dir')
         local_items = itemsdir and (urlparse(itemsdir).scheme.lower() in ['', 'file'])
         self.app = app
@@ -114,6 +114,7 @@ class Jobs(resource.Resource):
         resource.Resource.__init__(self)
         self.root = root
         self.local_items = local_items
+        self.log_suffix = Config().get('log_suffix', 'log')
 
     cancel_button = """
     <form method="post" action="/cancel.json">
@@ -202,8 +203,8 @@ class Jobs(resource.Resource):
                 Job=p.job, PID=p.pid,
                 Start=microsec_trunc(p.start_time),
                 Runtime=microsec_trunc(datetime.now() - p.start_time),
-                Log='<a href="/logs/%s/%s/%s./%s">Log</a>' % (p.project, p.spider, p.job, self.log_suffix),
-                UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job),
+                Log='<a href="/logs/%s/%s/%s.%s">Log</a>' % (p.project, p.spider, p.job, self.log_suffix),
+                UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s&log_suffix=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job, self.log_suffix),
                 Items='<a href="/items/%s/%s/%s.jl">Items</a>' % (p.project, p.spider, p.job),
                 Cancel=self.cancel_button(project=p.project, jobid=p.job)
             ))
@@ -218,8 +219,8 @@ class Jobs(resource.Resource):
                 Start=microsec_trunc(p.start_time),
                 Runtime=microsec_trunc(p.end_time - p.start_time),
                 Finish=microsec_trunc(p.end_time),
-                Log='<a href="/logs/%s/%s/%s./%s">Log</a>' % (p.project, p.spider, p.job, self.log_suffix),
-                UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job),
+                Log='<a href="/logs/%s/%s/%s.%s">Log</a>' % (p.project, p.spider, p.job, self.log_suffix),
+                UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s&log_suffix=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job, self.log_suffix),
                 Items='<a href="/items/%s/%s/%s.jl">Items</a>' % (p.project, p.spider, p.job),
             ))
             for p in self.root.launcher.finished
