@@ -16,6 +16,7 @@ class Root(resource.Resource):
         self.debug = config.getboolean('debug', False)
         self.runner = config.get('runner')
         logsdir = config.get('logs_dir')
+        self.log_suffix = config.get('log_suffix', 'log')
         itemsdir = config.get('items_dir')
         local_items = itemsdir and (urlparse(itemsdir).scheme.lower() in ['', 'file'])
         self.app = app
@@ -201,7 +202,7 @@ class Jobs(resource.Resource):
                 Job=p.job, PID=p.pid,
                 Start=microsec_trunc(p.start_time),
                 Runtime=microsec_trunc(datetime.now() - p.start_time),
-                Log='<a href="/logs/%s/%s/%s.log">Log</a>' % (p.project, p.spider, p.job),
+                Log='<a href="/logs/%s/%s/%s./%s">Log</a>' % (p.project, p.spider, p.job, self.log_suffix),
                 UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job),
                 Items='<a href="/items/%s/%s/%s.jl">Items</a>' % (p.project, p.spider, p.job),
                 Cancel=self.cancel_button(project=p.project, jobid=p.job)
@@ -217,7 +218,7 @@ class Jobs(resource.Resource):
                 Start=microsec_trunc(p.start_time),
                 Runtime=microsec_trunc(p.end_time - p.start_time),
                 Finish=microsec_trunc(p.end_time),
-                Log='<a href="/logs/%s/%s/%s.log">Log</a>' % (p.project, p.spider, p.job),
+                Log='<a href="/logs/%s/%s/%s./%s">Log</a>' % (p.project, p.spider, p.job, self.log_suffix),
                 UTF_8="<a href='/logs/UTF-8.html?project=%s&spider=%s&job=%s' target='_blank'>UTF-8</a></td>" % (p.project, p.spider, p.job),
                 Items='<a href="/items/%s/%s/%s.jl">Items</a>' % (p.project, p.spider, p.job),
             ))

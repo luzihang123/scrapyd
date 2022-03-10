@@ -18,7 +18,7 @@
     }
 
     var kwargs = parseQueryString(location.search);
-    document.querySelector('iframe').src = "/logs/" + kwargs.project + '/' + kwargs.spider + '/' + kwargs.job + '.log'
+    document.querySelector('iframe').src = "/logs/" + kwargs.project + '/' + kwargs.spider + '/' + kwargs.job + '.' + kwargs.log_suffix
 </script>
 
 <html>
