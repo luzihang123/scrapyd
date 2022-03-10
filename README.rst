@@ -22,3 +22,24 @@ http://scrapyd.readthedocs.org/
 .. |Pypi Downloads| image:: https://img.shields.io/pypi/dm/scrapyd.svg
    :target: https://pypi.python.org/pypi/scrapyd/
 .. _Scrapy: https://github.com/scrapy/scrapy
+
+
+
+=======
+修改部分
+=======
+
+
+Feature:
+--------
+
+1、通过配置文件scrapyd.conf，log_suffix配置项，可以自定义日志格式，方便被公司elk收集
+
+2、前端增加UTF_8视窗，解决乱码问题，方便查看中文日志
+
+
+TODO:
+-----
+
+1、日志大小控制
+应对长任务，海量数据抓取的log大小问题
