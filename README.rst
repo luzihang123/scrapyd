@@ -47,8 +47,11 @@ TODO:
 
 Install:
 -----
+1、安装
 无需登录git
 
 码云：pip install git+https://gitee.com/WoAiChiZhuSun/scrapyd.git
 
 github：pip install git+https://github.com/luzihang123/scrapyd.git
+
+2、添加 scrapyd/scripts/logs/UTF-8.html 文件，到scrapyd 配置文件指定的logs_dir下
